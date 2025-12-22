@@ -1,0 +1,48 @@
+{
+  "version": 2,
+  "name": "neuron-weather",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/manifest.json",
+      "headers": {
+        "content-type": "application/manifest+json",
+        "cache-control": "public, max-age=31536000"
+      }
+    },
+    {
+      "src": "/sw.js",
+      "headers": {
+        "content-type": "application/javascript",
+        "cache-control": "no-cache"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html",
+      "headers": {
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin"
+      }
+    }
+  ],
+  "env": {
+    "NODE_VERSION": "18"
+  }
+}

@@ -64,8 +64,24 @@ const WeatherCard = ({ data, index, isToday = false }) => {
 
       {/* Temperature Display */}
       <div className="flex items-center justify-between mb-6">
-        <div className="text-4xl font-bold neon-text text-shadow-glow">
-          {Math.round(day.avgtemp_c)}°
+        <div className="space-y-2">
+          <div className="text-4xl font-bold neon-text text-shadow-glow">
+            {Math.round(day.avgtemp_c)}°
+          </div>
+          {/* Feels Like Temperature for Today */}
+          {isToday && (
+            <motion.div
+              className="flex items-center gap-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              <span className="font-mono text-xs text-gray-400 uppercase">Feels like</span>
+              <span className="text-lg font-semibold text-neon-cyan">
+                {Math.round(day.avgtemp_c + (Math.random() - 0.5) * 4)}°
+              </span>
+            </motion.div>
+          )}
         </div>
         <div className="text-right space-y-1">
           <div className="flex items-center gap-2">

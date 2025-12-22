@@ -3,41 +3,168 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <meta name="theme-color" content="#00ff88" />
+
+    <!-- Primary Meta Tags -->
+    <title>NEURON Weather - AI-Powered Weather Intelligence System</title>
+    <meta
+      name="title"
+      content="NEURON Weather - AI-Powered Weather Intelligence System"
+    />
     <meta
       name="description"
-      content="NEURON Weather - Neural Intelligence System for advanced weather forecasting with cyberpunk design"
+      content="Experience the future of weather forecasting with NEURON Weather. Get AI-powered insights, minute-by-minute forecasts, air quality monitoring, and extreme weather alerts in a stunning cyberpunk interface."
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta
+      name="keywords"
+      content="weather, forecast, AI weather, cyberpunk weather app, minute-by-minute forecast, air quality, weather alerts, PWA weather app, neural weather intelligence"
+    />
+    <meta name="author" content="NEURON Weather Team" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>NEURON Weather - Neural Intelligence System</title>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://neuron-weather.netlify.app/" />
+    <meta
+      property="og:title"
+      content="NEURON Weather - AI-Powered Weather Intelligence System"
+    />
+    <meta
+      property="og:description"
+      content="Experience the future of weather forecasting with AI-powered insights, minute-by-minute forecasts, and stunning cyberpunk design."
+    />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="NEURON Weather" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://neuron-weather.netlify.app/"
+    />
+    <meta
+      property="twitter:title"
+      content="NEURON Weather - AI-Powered Weather Intelligence System"
+    />
+    <meta
+      property="twitter:description"
+      content="Experience the future of weather forecasting with AI-powered insights, minute-by-minute forecasts, and stunning cyberpunk design."
+    />
+    <meta property="twitter:image" content="%PUBLIC_URL%/og-image.png" />
+    <meta property="twitter:creator" content="@neuronweather" />
+
+    <!-- Additional Meta Tags -->
+    <meta name="application-name" content="NEURON Weather" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="NEURON Weather" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="msapplication-config"
+      content="%PUBLIC_URL%/browserconfig.xml"
+    />
+    <meta name="msapplication-TileColor" content="#00ff88" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://neuron-weather.netlify.app/" />
+
+    <!-- Icons and Manifest -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="%PUBLIC_URL%/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="%PUBLIC_URL%/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="%PUBLIC_URL%/favicon-16x16.png"
+    />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link
+      rel="mask-icon"
+      href="%PUBLIC_URL%/safari-pinned-tab.svg"
+      color="#00ff88"
+    />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://api.weatherapi.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="https://api.weatherapi.com" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "NEURON Weather",
+        "description": "AI-Powered Weather Intelligence System with advanced forecasting capabilities",
+        "url": "https://neuron-weather.netlify.app/",
+        "applicationCategory": "Weather",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Organization",
+          "name": "NEURON Weather Team"
+        },
+        "screenshot": "https://neuron-weather.netlify.app/screenshot.png",
+        "featureList": [
+          "AI-Powered Weather Insights",
+          "Minute-by-Minute Forecasts",
+          "Air Quality Monitoring",
+          "Extreme Weather Alerts",
+          "Progressive Web App",
+          "Offline Functionality"
+        ]
+      }
+    </script>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      <div
+        style="
+          text-align: center;
+          padding: 50px;
+          font-family: Arial, sans-serif;
+        "
+      >
+        <h1>🌦️ NEURON Weather</h1>
+        <p>
+          You need to enable JavaScript to run this advanced weather
+          intelligence system.
+        </p>
+        <p>
+          Please enable JavaScript in your browser settings and refresh the
+          page.
+        </p>
+      </div>
+    </noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>

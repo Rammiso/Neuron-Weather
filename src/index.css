@@ -7,11 +7,31 @@
   body {
     @apply font-inter bg-gradient-to-br from-cyber-darker via-cyber-dark to-gray-900 text-gray-50 min-h-screen overflow-x-hidden;
   }
+  
+  /* Performance optimizations */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 @layer components {
   .glass {
     @apply bg-cyber-card/30 backdrop-blur-md border border-cyber-border/50 rounded-2xl;
+    /* GPU acceleration for smooth animations */
+    transform: translateZ(0);
+    will-change: transform, opacity;
   }
   
   .neon-glow {
@@ -24,6 +44,9 @@
   
   .hover-lift {
     @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20;
+    /* Optimize for animations */
+    transform: translateZ(0);
+    will-change: transform;
   }
   
   .cyber-input {
@@ -32,19 +55,44 @@
   
   .cyber-button {
     @apply bg-gradient-to-r from-neon-green to-neon-dark text-black font-semibold px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-neon-green/30 transition-all duration-300 hover:-translate-y-0.5;
+    /* GPU acceleration */
+    transform: translateZ(0);
+    will-change: transform;
   }
   
   .holographic-card {
     @apply glass relative overflow-hidden hover-lift;
+    /* Optimize for hover effects */
+    transform: translateZ(0);
   }
   
   .holographic-card::before {
     content: '';
     @apply absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-neon-green/10 to-transparent transition-all duration-700;
+    /* GPU acceleration for smooth shimmer */
+    transform: translateZ(0);
+    will-change: transform;
   }
   
   .holographic-card:hover::before {
     @apply left-full;
+  }
+  
+  /* Performance-optimized animations */
+  .animate-optimized {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+  
+  /* Smooth scrolling with performance consideration */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .smooth-scroll {
+      scroll-behavior: auto;
+    }
   }
 }
 
@@ -55,5 +103,124 @@
   
   .border-glow {
     box-shadow: 0 0 20px rgba(0, 255, 136, 0.3), inset 0 0 20px rgba(0, 255, 136, 0.1);
+  }
+  
+  /* GPU acceleration utilities */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+  
+  /* Optimized backdrop blur for better performance */
+  .backdrop-blur-optimized {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  /* Custom scrollbar for webkit browsers */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(42, 63, 95, 0.3);
+    border-radius: 3px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 136, 0.5);
+    border-radius: 3px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 136, 0.7);
+  }
+  
+  /* Mobile-specific optimizations */
+  @media (max-width: 768px) {
+    .glass {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .holographic-card {
+      padding: 1rem;
+    }
+    
+    .text-shadow-glow {
+      text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+    }
+    
+    /* Reduce particle effects on mobile */
+    .particle-background {
+      opacity: 0.6;
+    }
+    
+    /* Touch-friendly buttons */
+    .cyber-button {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Improved text readability on mobile */
+    .font-mono {
+      font-size: 0.875rem;
+    }
+  }
+  
+  /* High DPI displays */
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .neon-text {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+  
+  /* Safe area for notched devices */
+  @supports (padding: max(0px)) {
+    .safe-area-top {
+      padding-top: max(1rem, env(safe-area-inset-top));
+    }
+    
+    .safe-area-bottom {
+      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+  }
+  
+  /* PWA display mode styles */
+  @media (display-mode: standalone) {
+    body {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    
+    /* Hide scrollbars in standalone mode */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    
+    /* Prevent pull-to-refresh */
+    body {
+      overscroll-behavior-y: contain;
+    }
+  }
+  
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+    }
+  }
+  
+  /* Landscape orientation adjustments */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .holographic-card {
+      padding: 0.75rem;
+    }
+    
+    .text-4xl, .text-5xl, .text-6xl {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
   }
 }

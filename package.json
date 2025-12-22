@@ -1,7 +1,27 @@
 {
   "name": "neuron-weather",
-  "version": "0.1.0",
+  "version": "2.1.0",
   "private": true,
+  "description": "AI-Powered Weather Intelligence System with advanced forecasting capabilities",
+  "keywords": [
+    "weather",
+    "forecast",
+    "pwa",
+    "react",
+    "cyberpunk",
+    "ai-weather",
+    "weather-app"
+  ],
+  "author": "NEURON Weather Team",
+  "license": "MIT",
+  "homepage": "https://neuron-weather.netlify.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/neuron-weather.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/neuron-weather/issues"
+  },
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -16,9 +36,15 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && npm run post-build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "post-build": "echo 'Build completed successfully! 🚀'",
+    "analyze": "npm run build && npx serve -s build",
+    "deploy:netlify": "npm run build && netlify deploy --prod --dir=build",
+    "deploy:vercel": "npm run build && vercel --prod",
+    "lighthouse": "lighthouse http://localhost:3000 --output html --output-path ./lighthouse-report.html",
+    "pwa-check": "lighthouse http://localhost:3000 --only-categories=pwa --output html --output-path ./pwa-report.html"
   },
   "eslintConfig": {
     "extends": [
@@ -30,7 +56,8 @@
     "production": [
       ">0.2%",
       "not dead",
-      "not op_mini all"
+      "not op_mini all",
+      "not ie <= 11"
     ],
     "development": [
       "last 1 chrome version",
@@ -42,5 +69,9 @@
     "autoprefixer": "^10.4.23",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.19"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   }
 }
