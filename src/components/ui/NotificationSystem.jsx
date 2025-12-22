@@ -75,7 +75,7 @@ const NotificationSystem = () => {
   };
 
   return (
-    <div className="fixed top-4 left-4 z-50 space-y-3 max-w-sm">
+    <div className="fixed top-4 left-4 md:left-4 z-50 space-y-3 max-w-sm md:max-w-sm w-full md:w-auto px-4 md:px-0">
       <AnimatePresence>
         {notifications.map((notification) => (
           <motion.div

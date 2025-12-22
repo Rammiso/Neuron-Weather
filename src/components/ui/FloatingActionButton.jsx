@@ -81,7 +81,7 @@ const FloatingActionButton = () => {
   };
 
   return (
-    <div className="fixed bottom-8 right-8 z-50">
+    <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-50">
       {/* Menu Items */}
       <AnimatePresence>
         {isOpen && (
