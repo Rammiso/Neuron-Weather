@@ -1,13 +1,59 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-inter bg-gradient-to-br from-cyber-darker via-cyber-dark to-gray-900 text-gray-50 min-h-screen overflow-x-hidden;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer components {
+  .glass {
+    @apply bg-cyber-card/30 backdrop-blur-md border border-cyber-border/50 rounded-2xl;
+  }
+  
+  .neon-glow {
+    @apply shadow-lg shadow-neon-green/20;
+  }
+  
+  .neon-text {
+    @apply bg-gradient-to-r from-neon-green to-neon-cyan bg-clip-text text-transparent;
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20;
+  }
+  
+  .cyber-input {
+    @apply glass px-4 py-3 text-gray-50 placeholder-gray-400 focus:border-neon-green focus:ring-2 focus:ring-neon-green/20 focus:outline-none transition-all duration-300;
+  }
+  
+  .cyber-button {
+    @apply bg-gradient-to-r from-neon-green to-neon-dark text-black font-semibold px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-neon-green/30 transition-all duration-300 hover:-translate-y-0.5;
+  }
+  
+  .holographic-card {
+    @apply glass relative overflow-hidden hover-lift;
+  }
+  
+  .holographic-card::before {
+    content: '';
+    @apply absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-neon-green/10 to-transparent transition-all duration-700;
+  }
+  
+  .holographic-card:hover::before {
+    @apply left-full;
+  }
+}
+
+@layer utilities {
+  .text-shadow-glow {
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+  }
+  
+  .border-glow {
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3), inset 0 0 20px rgba(0, 255, 136, 0.1);
+  }
 }

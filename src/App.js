@@ -1,25 +1,204 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import "./index.css";
 
-function App() {
+// Components
+import ParticleBackground from "./components/ui/ParticleBackground";
+import SearchInput from "./components/ui/SearchInput";
+import LoadingSpinner from "./components/ui/LoadingSpinner";
+import FloatingActionButton from "./components/ui/FloatingActionButton";
+import SystemStatus from "./components/ui/SystemStatus";
+import NotificationSystem from "./components/ui/NotificationSystem";
+import LocationHeader from "./components/LocationHeader";
+import WeatherCard from "./components/WeatherCard";
+import EmptyState from "./components/EmptyState";
+import Footer from "./components/Footer";
+
+// Hooks
+import useWeather from "./hooks/useWeather";
+
+// Icons
+import { AlertCircle, Zap, Activity } from "lucide-react";
+
+export default function App() {
+  const [search, setSearch] = useState("");
+  const { data, loading, error } = useWeather(search);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const headerVariants = {
+    hidden: { opacity: 0, y: -50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" }
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Particle Background */}
+      <ParticleBackground />
+      
+      {/* System Status */}
+      <SystemStatus />
+      
+      {/* Notification System */}
+      <NotificationSystem />
+      
+      {/* Floating Action Button */}
+      <FloatingActionButton />
+      
+      {/* Main Content */}
+      <motion.div
+        className="relative z-10 min-h-screen flex flex-col"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {/* Header */}
+        <motion.header
+          className="text-center py-12 px-4"
+          variants={headerVariants}
         >
-          Learn React
-        </a>
-      </header>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="relative">
+              <Zap className="w-8 h-8 text-neon-green" />
+              <motion.div
+                className="absolute inset-0 bg-neon-green/30 rounded-full blur-md"
+                animate={{
+                  scale: [1, 1.5, 1],
+                  opacity: [0.5, 0.8, 0.5]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold neon-text text-shadow-glow">
+              NEURON WEATHER
+            </h1>
+            <Activity className="w-8 h-8 text-neon-cyan" />
+          </div>
+          
+          <p className="font-mono text-gray-400 uppercase tracking-[0.2em] text-sm md:text-base">
+            Neural Weather Intelligence System
+          </p>
+          
+          <div className="mt-2 flex items-center justify-center gap-2">
+            <div className="w-2 h-2 bg-neon-green rounded-full animate-pulse" />
+            <span className="font-mono text-xs text-gray-500 uppercase">
+              Neural Network v2.1.0 Active
+            </span>
+            <div className="w-2 h-2 bg-neon-green rounded-full animate-pulse" />
+          </div>
+        </motion.header>
+
+        {/* Search Section */}
+        <div className="px-4 mb-8">
+          <SearchInput 
+            search={search} 
+            setSearch={setSearch}
+            placeholder="Initialize weather scan for city..."
+          />
+        </div>
+
+        {/* Main Content Area */}
+        <main className="flex-1 px-4 pb-12">
+          <div className="max-w-7xl mx-auto">
+            <AnimatePresence mode="wait">
+              {loading && (
+                <motion.div
+                  key="loading"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex justify-center py-20"
+                >
+                  <LoadingSpinner 
+                    size="lg" 
+                    text="Scanning atmospheric conditions..." 
+                  />
+                </motion.div>
+              )}
+
+              {error && (
+                <motion.div
+                  key="error"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  className="flex flex-col items-center justify-center py-20"
+                >
+                  <div className="glass p-8 rounded-2xl text-center max-w-md">
+                    <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-gray-200 mb-2">
+                      Scan Failed
+                    </h3>
+                    <p className="text-gray-400 mb-4">{error}</p>
+                    <p className="font-mono text-xs text-gray-500 uppercase">
+                      Try a different location
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+
+              {!loading && !error && !data && (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <EmptyState />
+                </motion.div>
+              )}
+
+              {!loading && !error && data && (
+                <motion.div
+                  key="data"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="space-y-8"
+                >
+                  {/* Location Header */}
+                  <LocationHeader 
+                    location={data.location} 
+                    search={search} 
+                  />
+
+                  {/* Weather Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {data.forecast.forecastday.map((day, index) => (
+                      <WeatherCard
+                        key={day.date}
+                        data={day}
+                        index={index}
+                        isToday={index === 0}
+                      />
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </main>
+
+        {/* Footer */}
+        <Footer />
+      </motion.div>
     </div>
   );
 }
-
-export default App;
