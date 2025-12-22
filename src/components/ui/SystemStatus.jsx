@@ -110,14 +110,20 @@ const SystemStatus = () => {
     <motion.div
       className={`fixed z-40 ${
         isMobile 
-          ? 'top-4 right-4' 
+          ? 'top-4 right-4 left-4' 
           : 'top-4 right-4'
       }`}
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 1 }}
     >
-      <div className={`glass rounded-xl ${isMobile ? 'p-2' : 'p-4'} ${isMobile ? 'w-12 h-12 flex items-center justify-center' : 'min-w-[280px]'}`}>
+      <div className={`glass rounded-xl ${
+        isMobile && !isExpanded 
+          ? 'w-12 h-12 p-2 flex items-center justify-center' 
+          : isMobile 
+            ? 'p-3 w-full max-w-sm' 
+            : 'p-4 min-w-[280px]'
+      }`}>
         {/* Header - Always Visible */}
         <motion.div
           className="flex items-center gap-2 cursor-pointer"
