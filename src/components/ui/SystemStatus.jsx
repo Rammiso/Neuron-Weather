@@ -110,71 +110,85 @@ const SystemStatus = () => {
     <motion.div
       className={`fixed z-40 ${
         isMobile 
-          ? 'top-2 right-2 left-2' 
+          ? 'top-4 right-4' 
           : 'top-4 right-4'
       }`}
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 1 }}
     >
-      <div className={`glass rounded-xl ${isMobile ? 'p-3' : 'p-4'} ${isMobile ? 'max-w-full' : 'min-w-[280px]'}`}>
+      <div className={`glass rounded-xl ${isMobile ? 'p-2' : 'p-4'} ${isMobile ? 'w-12 h-12 flex items-center justify-center' : 'min-w-[280px]'}`}>
         {/* Header - Always Visible */}
         <motion.div
           className="flex items-center gap-2 cursor-pointer"
           onClick={() => isMobile && setIsExpanded(!isExpanded)}
           whileTap={isMobile ? { scale: 0.98 } : {}}
         >
-          <div className="relative">
-            <Zap className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'} text-neon-green`} />
-            <motion.div
-              className="absolute inset-0 bg-neon-green/30 rounded-full blur-sm"
-              animate={{
-                scale: [1, 1.3, 1],
-                opacity: [0.3, 0.6, 0.3]
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-          </div>
-          
-          <div className="flex-1 min-w-0">
-            <h3 className={`font-semibold text-gray-200 ${isMobile ? 'text-xs' : 'text-sm'}`}>
-              System Status
-            </h3>
-            {!isMobile && (
-              <p className="font-mono text-xs text-gray-400 uppercase tracking-wide">
-                Neural Network Monitor
-              </p>
-            )}
-          </div>
-          
-          {/* Mobile: Show compact stats when collapsed */}
+          {/* Mobile: Compact toggle button */}
           {isMobile && !isExpanded && (
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-xs text-neon-green">
-                {systemStats.cpu}%
-              </span>
-              <CheckCircle className="w-3 h-3 text-neon-green" />
+            <div className="relative">
+              <Zap className="w-5 h-5 text-neon-green" />
+              <motion.div
+                className="absolute inset-0 bg-neon-green/30 rounded-full blur-sm"
+                animate={{
+                  scale: [1, 1.3, 1],
+                  opacity: [0.3, 0.6, 0.3]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
             </div>
           )}
           
-          {/* Desktop: Always show status icon */}
-          {!isMobile && (
-            <CheckCircle className="w-4 h-4 text-neon-green" />
-          )}
-          
-          {/* Mobile: Toggle icon */}
-          {isMobile && (
-            <motion.div
-              animate={{ rotate: isExpanded ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ChevronDown className="w-4 h-4 text-gray-400" />
-            </motion.div>
-          )}
+          {/* Desktop or Mobile Expanded: Full header */}
+          {!isMobile || isExpanded ? (
+            <>
+              <div className="relative">
+                <Zap className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'} text-neon-green`} />
+                <motion.div
+                  className="absolute inset-0 bg-neon-green/30 rounded-full blur-sm"
+                  animate={{
+                    scale: [1, 1.3, 1],
+                    opacity: [0.3, 0.6, 0.3]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+              </div>
+              
+              <div className="flex-1 min-w-0">
+                <h3 className={`font-semibold text-gray-200 ${isMobile ? 'text-xs' : 'text-sm'}`}>
+                  System Status
+                </h3>
+                {!isMobile && (
+                  <p className="font-mono text-xs text-gray-400 uppercase tracking-wide">
+                    Neural Network Monitor
+                  </p>
+                )}
+              </div>
+              
+              {/* Desktop: Always show status icon */}
+              {!isMobile && (
+                <CheckCircle className="w-4 h-4 text-neon-green" />
+              )}
+              
+              {/* Mobile: Toggle icon */}
+              {isMobile && (
+                <motion.div
+                  animate={{ rotate: isExpanded ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                </motion.div>
+              )}
+            </>
+          ) : null}
         </motion.div>
 
         {/* Expandable Content */}

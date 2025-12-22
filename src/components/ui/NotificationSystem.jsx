@@ -9,9 +9,23 @@ import {
 
 const NotificationSystem = () => {
   const [notifications, setNotifications] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Demo notifications
+  // Check if mobile
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Demo notifications - only show on desktop
+  useEffect(() => {
+    if (isMobile) return; // Skip startup messages on mobile
+    
     const demoNotifications = [
       {
         id: 1,
@@ -40,7 +54,7 @@ const NotificationSystem = () => {
     }, 8000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isMobile]);
 
   const removeNotification = (id) => {
     setNotifications(prev => prev.filter(notif => notif.id !== id));
