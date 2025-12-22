@@ -4,19 +4,24 @@
   "description": "Experience the future of weather forecasting with AI-powered insights, minute-by-minute forecasts, and stunning cyberpunk design.",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "favicon/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
     },
     {
-      "src": "favicon.ico",
-      "type": "image/x-icon",
+      "src": "favicon/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon/logo192.png",
+      "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "favicon.ico",
-      "type": "image/x-icon", 
+      "src": "favicon/logo512.png",
+      "type": "image/png", 
       "sizes": "512x512",
       "purpose": "any maskable"
     }
