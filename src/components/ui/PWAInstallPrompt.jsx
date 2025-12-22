@@ -19,8 +19,8 @@ const PWAInstallPrompt = () => {
     const checkIfInstalled = () => {
       const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches;
       const isIOSStandalone = window.navigator.standalone === true;
-      setIsStandalone(isStandaloneMode || isIOSStandalone);
-      setIsInstalled(isStandaloneMode || isIOSStandalone);
+      const isAppInstalled = isStandaloneMode || isIOSStandalone;
+      setIsInstalled(isAppInstalled);
     };
 
     // Check if iOS
@@ -51,10 +51,8 @@ const PWAInstallPrompt = () => {
       setShowInstallPrompt(false);
       setDeferredPrompt(null);
       
-      // Show success message
-      setTimeout(() => {
-        alert('🎉 NEURON Weather installed successfully!');
-      }, 500);
+      // Show success message (better UX than alert)
+      console.log('🎉 NEURON Weather installed successfully!');
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
