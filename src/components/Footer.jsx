@@ -127,7 +127,7 @@ const Footer = () => {
               
               <div className="flex justify-between items-center">
                 <span className="font-mono text-xs text-gray-400 uppercase">Build</span>
-                <span className="text-neon-cyan font-mono text-sm">Neural-2024</span>
+                <span className="text-neon-cyan font-mono text-sm">Neural-2025</span>
               </div>
               
               <div className="flex justify-between items-center">

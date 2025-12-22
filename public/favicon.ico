@@ -1,0 +1,24 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="16" fill="#0a0a0f"/>
+  
+  <!-- Neural network pattern -->
+  <circle cx="8" cy="8" r="1.5" fill="#00ff88" opacity="0.8"/>
+  <circle cx="24" cy="8" r="1.5" fill="#00ff88" opacity="0.8"/>
+  <circle cx="16" cy="12" r="2" fill="#00ff88"/>
+  <circle cx="8" cy="20" r="1.5" fill="#00ffff" opacity="0.8"/>
+  <circle cx="24" cy="20" r="1.5" fill="#00ffff" opacity="0.8"/>
+  <circle cx="16" cy="24" r="1.5" fill="#00ffff" opacity="0.8"/>
+  
+  <!-- Connection lines -->
+  <line x1="8" y1="8" x2="16" y2="12" stroke="#00ff88" stroke-width="0.5" opacity="0.6"/>
+  <line x1="24" y1="8" x2="16" y2="12" stroke="#00ff88" stroke-width="0.5" opacity="0.6"/>
+  <line x1="16" y1="12" x2="8" y2="20" stroke="#00ffff" stroke-width="0.5" opacity="0.6"/>
+  <line x1="16" y1="12" x2="24" y2="20" stroke="#00ffff" stroke-width="0.5" opacity="0.6"/>
+  <line x1="8" y1="20" x2="16" y2="24" stroke="#00ffff" stroke-width="0.5" opacity="0.6"/>
+  <line x1="24" y1="20" x2="16" y2="24" stroke="#00ffff" stroke-width="0.5" opacity="0.6"/>
+  
+  <!-- Weather symbol (cloud with lightning) -->
+  <path d="M12 14c0-1.1.9-2 2-2s2 .9 2 2c1.1 0 2 .9 2 2s-.9 2-2 2h-4c-1.1 0-2-.9-2-2s.9-2 2-2z" fill="#00ff88" opacity="0.9"/>
+  <path d="M15 18l-1 3h2l-1-3z" fill="#00ffff"/>
+</svg>
