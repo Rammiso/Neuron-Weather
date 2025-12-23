@@ -77,7 +77,7 @@ export default function App() {
       <NotificationSystem />
       
       {/* Floating Action Button */}
-      <FloatingActionButton />
+      <FloatingActionButton weatherCondition={data?.current?.condition?.text} />
       
       {/* PWA Install Prompt */}
       <PWAInstallPrompt />
