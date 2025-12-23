@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PWA Test Page</title>
+    <style>
+      body {
+        font-family: monospace;
+        padding: 20px;
+        background: #0a0a0f;
+        color: #00ff88;
+      }
+      .test-item {
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #00ff88;
+        border-radius: 5px;
+      }
+      .pass {
+        background: rgba(0, 255, 136, 0.1);
+      }
+      .fail {
+        background: rgba(255, 0, 0, 0.1);
+        border-color: #ff0000;
+        color: #ff0000;
+      }
+      button {
+        background: #00ff88;
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧪 NEURON Weather PWA Test</h1>
+
+    <div id="tests"></div>
+
+    <h2>Actions:</h2>
+    <button onclick="clearCache()">Clear All Cache</button>
+    <button onclick="unregisterSW()">Unregister Service Worker</button>
+    <button onclick="clearStorage()">Clear Storage</button>
+    <button onclick="location.reload()">Reload Page</button>
+
+    <script>
+      const testsDiv = document.getElementById("tests");
+
+      function addTest(name, passed, details) {
+        const div = document.createElement("div");
+        div.className = `test-item ${passed ? "pass" : "fail"}`;
+        div.innerHTML = `
+                <strong>${passed ? "✅" : "❌"} ${name}</strong><br>
+                <small>${details}</small>
+            `;
+        testsDiv.appendChild(div);
+      }
+
+      // Run tests
+      async function runTests() {
+        // Test 1: Service Worker Support
+        addTest(
+          "Service Worker Support",
+          "serviceWorker" in navigator,
+          "serviceWorker" in navigator
+            ? "Browser supports service workers"
+            : "Not supported",
+        );
+
+        // Test 2: Service Worker Registration
+        if ("serviceWorker" in navigator) {
+          try {
+            const registration =
+              await navigator.serviceWorker.getRegistration();
+            addTest(
+              "Service Worker Registered",
+              !!registration,
+              registration
+                ? `Active: ${registration.active?.state}`
+                : "Not registered",
+            );
+          } catch (e) {
+            addTest("Service Worker Registered", false, e.message);
+          }
+        }
+
+        // Test 3: Manifest
+        const manifestLink = document.querySelector('link[rel="manifest"]');
+        addTest(
+          "Manifest Link",
+          !!manifestLink,
+          manifestLink ? `Found: ${manifestLink.href}` : "Not found",
+        );
+
+        // Test 4: Favicon
+        const faviconLink = document.querySelector('link[rel="icon"]');
+        addTest(
+          "Favicon Link",
+          !!faviconLink,
+          faviconLink ? `Found: ${faviconLink.href}` : "Not found",
+        );
+
+        // Test 5: PWA Install Prompt
+        let promptCaptured = false;
+        window.addEventListener("beforeinstallprompt", (e) => {
+          promptCaptured = true;
+        });
+        setTimeout(() => {
+          addTest(
+            "Install Prompt Event",
+            promptCaptured,
+            promptCaptured
+              ? "beforeinstallprompt fired"
+              : "Not fired (may be iOS or already installed)",
+          );
+        }, 1000);
+
+        // Test 6: Standalone Mode
+        const isStandalone = window.matchMedia(
+          "(display-mode: standalone)",
+        ).matches;
+        addTest(
+          "Standalone Mode",
+          !isStandalone,
+          isStandalone ? "Already installed as PWA" : "Running in browser",
+        );
+
+        // Test 7: Session Storage
+        const dismissed = sessionStorage.getItem("pwa-install-dismissed");
+        addTest(
+          "PWA Prompt Dismissed",
+          !dismissed,
+          dismissed
+            ? "Prompt was dismissed - clear storage to test"
+            : "Not dismissed",
+        );
+
+        // Test 8: Device Type
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const isAndroid = /Android/.test(navigator.userAgent);
+        addTest(
+          "Device Detection",
+          true,
+          `iOS: ${isIOS}, Android: ${isAndroid}, Desktop: ${!isIOS && !isAndroid}`,
+        );
+      }
+
+      async function clearCache() {
+        if ("caches" in window) {
+          const names = await caches.keys();
+          await Promise.all(names.map((name) => caches.delete(name)));
+          alert("✅ Cache cleared! Reload the page.");
+        }
+      }
+
+      async function unregisterSW() {
+        if ("serviceWorker" in navigator) {
+          const registration = await navigator.serviceWorker.getRegistration();
+          if (registration) {
+            await registration.unregister();
+            alert("✅ Service Worker unregistered! Reload the page.");
+          }
+        }
+      }
+
+      function clearStorage() {
+        sessionStorage.clear();
+        localStorage.clear();
+        alert("✅ Storage cleared! Reload the page.");
+      }
+
+      // Run tests on load
+      runTests();
+    </script>
+  </body>
+</html>

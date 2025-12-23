@@ -15,6 +15,18 @@ const PWAInstallPrompt = () => {
   const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
+    // IMPORTANT: Clear session storage on component mount to ensure prompt shows
+    // This fixes the issue where dismissal persists across reloads
+    const lastDismissed = sessionStorage.getItem('pwa-install-dismissed-time');
+    if (lastDismissed) {
+      const timeSinceDismiss = Date.now() - parseInt(lastDismissed);
+      // Clear if more than 5 minutes have passed
+      if (timeSinceDismiss > 5 * 60 * 1000) {
+        sessionStorage.removeItem('pwa-install-dismissed');
+        sessionStorage.removeItem('pwa-install-dismissed-time');
+      }
+    }
+
     // Check if app is already installed
     const checkIfInstalled = () => {
       const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches;
@@ -34,26 +46,28 @@ const PWAInstallPrompt = () => {
     const installed = checkIfInstalled();
     const iosDevice = checkIfIOS();
 
-    // Check if user has dismissed the prompt in this session
+    // Check if user has dismissed the prompt recently
     const dismissed = sessionStorage.getItem('pwa-install-dismissed');
 
     // For iOS devices, show prompt immediately if not installed and not dismissed
     if (iosDevice && !installed && !dismissed) {
       setTimeout(() => {
         setShowInstallPrompt(true);
-      }, 2000); // Show after 2 seconds on iOS
+      }, 3000); // Show after 3 seconds on iOS
     }
 
     // Listen for the beforeinstallprompt event (Android/Chrome)
     const handleBeforeInstallPrompt = (e) => {
+      console.log('beforeinstallprompt event fired'); // Debug log
       e.preventDefault();
       setDeferredPrompt(e);
       
       // Show install prompt after a delay if not already installed
       if (!installed && !dismissed) {
         setTimeout(() => {
+          console.log('Showing PWA install prompt'); // Debug log
           setShowInstallPrompt(true);
-        }, 2000); // Show after 2 seconds
+        }, 3000); // Show after 3 seconds
       }
     };
 
@@ -104,8 +118,9 @@ const PWAInstallPrompt = () => {
 
   const handleDismiss = () => {
     setShowInstallPrompt(false);
-    // Store dismissal in session storage (will show again on next visit/reload)
+    // Store dismissal with timestamp
     sessionStorage.setItem('pwa-install-dismissed', 'true');
+    sessionStorage.setItem('pwa-install-dismissed-time', Date.now().toString());
   };
 
   // Don't show if already installed

@@ -108,9 +108,9 @@ const SystemStatus = () => {
 
   return (
     <motion.div
-      className={`fixed z-40 ${
+      className={`fixed z-50 ${
         isMobile 
-          ? 'top-4 right-4 left-4' 
+          ? 'top-2 right-2' 
           : 'top-4 right-4'
       }`}
       initial={{ opacity: 0, y: -50 }}

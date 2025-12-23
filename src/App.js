@@ -10,6 +10,7 @@ import FloatingActionButton from "./components/ui/FloatingActionButton";
 import SystemStatus from "./components/ui/SystemStatus";
 import NotificationSystem from "./components/ui/NotificationSystem";
 import PWAInstallPrompt from "./components/ui/PWAInstallPrompt";
+import PWAInstallButton from "./components/ui/PWAInstallButton";
 import LocationHeader from "./components/LocationHeader";
 import WeatherCard from "./components/WeatherCard";
 import EmptyState from "./components/EmptyState";
@@ -125,6 +126,11 @@ export default function App() {
               Neural Network v2.1.0 Active
             </span>
             <div className="w-2 h-2 bg-neon-green rounded-full animate-pulse" />
+          </div>
+          
+          {/* PWA Install Button - Mobile Only */}
+          <div className="mt-3 flex justify-center md:hidden">
+            <PWAInstallButton />
           </div>
         </motion.header>
 

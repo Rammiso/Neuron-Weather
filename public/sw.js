@@ -1,4 +1,4 @@
-const CACHE_NAME = 'neuron-weather-v1.0.0';
+const CACHE_NAME = 'neuron-weather-v2.1.1'; // Updated version to force cache refresh
 const urlsToCache = [
   '/',
   '/static/js/bundle.js',

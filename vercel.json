@@ -14,33 +14,39 @@
     {
       "src": "/favicon\\.ico",
       "headers": {
-        "cache-control": "public, max-age=86400"
+        "cache-control": "public, max-age=3600, must-revalidate"
       }
     },
     {
       "src": "/favicon/(.*)",
       "headers": {
-        "cache-control": "public, max-age=86400"
+        "cache-control": "public, max-age=3600, must-revalidate"
+      }
+    },
+    {
+      "src": "/manifest\\.json",
+      "headers": {
+        "content-type": "application/manifest+json",
+        "cache-control": "public, max-age=3600, must-revalidate"
+      }
+    },
+    {
+      "src": "/sw\\.js",
+      "headers": {
+        "content-type": "application/javascript",
+        "cache-control": "no-cache, no-store, must-revalidate"
+      }
+    },
+    {
+      "src": "/index\\.html",
+      "headers": {
+        "cache-control": "no-cache, no-store, must-revalidate"
       }
     },
     {
       "src": "/static/(.*)",
       "headers": {
         "cache-control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
-      "src": "/manifest.json",
-      "headers": {
-        "content-type": "application/manifest+json",
-        "cache-control": "public, max-age=31536000"
-      }
-    },
-    {
-      "src": "/sw.js",
-      "headers": {
-        "content-type": "application/javascript",
-        "cache-control": "no-cache"
       }
     },
     {
