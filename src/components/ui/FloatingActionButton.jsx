@@ -12,68 +12,112 @@ import {
 const FloatingActionButton = ({ weatherCondition }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(() => {
-    // Load sound preference from localStorage
     const saved = localStorage.getItem('neuron-weather-sound');
     return saved ? JSON.parse(saved) : false;
   });
   const [theme, setTheme] = useState('cyberpunk');
   const [currentAudio, setCurrentAudio] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audioError, setAudioError] = useState(null);
 
-  // Weather sound mapping
+  // Weather sound mapping - Using reliable CDN sources
   const weatherSounds = {
-    rain: 'https://assets.mixkit.co/active_storage/sfx/2393/2393-preview.mp3', // Rain sound
-    thunderstorm: 'https://assets.mixkit.co/active_storage/sfx/1295/1295-preview.mp3', // Thunder
-    snow: 'https://assets.mixkit.co/active_storage/sfx/1649/1649-preview.mp3', // Wind/snow
-    clear: 'https://assets.mixkit.co/active_storage/sfx/2462/2462-preview.mp3', // Birds chirping
-    cloudy: 'https://assets.mixkit.co/active_storage/sfx/1649/1649-preview.mp3', // Gentle wind
-    windy: 'https://assets.mixkit.co/active_storage/sfx/1649/1649-preview.mp3', // Strong wind
-    fog: 'https://assets.mixkit.co/active_storage/sfx/1649/1649-preview.mp3', // Ambient
+    rain: 'https://cdn.freesound.org/previews/416/416710_5121236-lq.mp3',
+    thunderstorm: 'https://cdn.freesound.org/previews/442/442774_907272-lq.mp3',
+    snow: 'https://cdn.freesound.org/previews/270/270319_5123851-lq.mp3',
+    clear: 'https://cdn.freesound.org/previews/506/506053_10361990-lq.mp3',
+    cloudy: 'https://cdn.freesound.org/previews/270/270319_5123851-lq.mp3',
+    windy: 'https://cdn.freesound.org/previews/270/270319_5123851-lq.mp3',
+    fog: 'https://cdn.freesound.org/previews/270/270319_5123851-lq.mp3',
   };
 
-  // Play weather sound based on condition
-  useEffect(() => {
-    if (!soundEnabled || !weatherCondition) {
-      // Stop audio if sound is disabled or no weather condition
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        setCurrentAudio(null);
-      }
-      return;
+  // Handle sound toggle with user interaction
+  const handleSoundToggle = () => {
+    const newState = !soundEnabled;
+    setSoundEnabled(newState);
+    setAudioError(null);
+    
+    if (newState && weatherCondition) {
+      // User just enabled sound, try to play immediately
+      playWeatherSound(weatherCondition);
+    } else if (!newState && currentAudio) {
+      // User disabled sound, stop audio
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      setCurrentAudio(null);
+      setIsPlaying(false);
+    }
+  };
+
+  // Function to play weather sound
+  const playWeatherSound = (condition) => {
+    if (!condition) return;
+
+    // Stop current audio if playing
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
     }
 
     // Determine sound based on weather condition
-    const condition = weatherCondition.toLowerCase();
+    const conditionLower = condition.toLowerCase();
     let soundUrl = null;
 
-    if (condition.includes('rain') || condition.includes('drizzle')) {
+    if (conditionLower.includes('rain') || conditionLower.includes('drizzle')) {
       soundUrl = weatherSounds.rain;
-    } else if (condition.includes('thunder') || condition.includes('storm')) {
+    } else if (conditionLower.includes('thunder') || conditionLower.includes('storm')) {
       soundUrl = weatherSounds.thunderstorm;
-    } else if (condition.includes('snow') || condition.includes('sleet')) {
+    } else if (conditionLower.includes('snow') || conditionLower.includes('sleet')) {
       soundUrl = weatherSounds.snow;
-    } else if (condition.includes('clear') || condition.includes('sunny')) {
+    } else if (conditionLower.includes('clear') || conditionLower.includes('sunny')) {
       soundUrl = weatherSounds.clear;
-    } else if (condition.includes('wind')) {
+    } else if (conditionLower.includes('wind')) {
       soundUrl = weatherSounds.windy;
-    } else if (condition.includes('fog') || condition.includes('mist')) {
+    } else if (conditionLower.includes('fog') || conditionLower.includes('mist')) {
       soundUrl = weatherSounds.fog;
-    } else if (condition.includes('cloud') || condition.includes('overcast')) {
+    } else if (conditionLower.includes('cloud') || conditionLower.includes('overcast')) {
       soundUrl = weatherSounds.cloudy;
     }
 
     if (soundUrl) {
-      // Stop current audio if playing
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-      }
+      try {
+        const audio = new Audio(soundUrl);
+        audio.volume = 0.3;
+        audio.loop = true;
+        audio.crossOrigin = 'anonymous'; // Handle CORS
+        
+        audio.addEventListener('playing', () => {
+          setIsPlaying(true);
+          setAudioError(null);
+        });
+        
+        audio.addEventListener('error', (e) => {
+          console.error('Audio error:', e);
+          setAudioError('Sound unavailable');
+          setIsPlaying(false);
+        });
 
-      const audio = new Audio(soundUrl);
-      audio.volume = 0.3; // Set volume to 30%
-      audio.loop = true;
-      audio.play().catch(err => console.log('Audio play failed:', err));
-      setCurrentAudio(audio);
+        audio.play()
+          .then(() => {
+            setCurrentAudio(audio);
+            setIsPlaying(true);
+          })
+          .catch(err => {
+            console.error('Audio play failed:', err);
+            setAudioError('Click to enable sound');
+            setIsPlaying(false);
+          });
+      } catch (error) {
+        console.error('Audio creation failed:', error);
+        setAudioError('Sound error');
+      }
+    }
+  };
+
+  // Play weather sound when condition changes
+  useEffect(() => {
+    if (soundEnabled && weatherCondition) {
+      playWeatherSound(weatherCondition);
     }
 
     // Cleanup
@@ -84,7 +128,7 @@ const FloatingActionButton = ({ weatherCondition }) => {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [weatherCondition, soundEnabled]);
+  }, [weatherCondition]);
 
   // Save sound preference
   useEffect(() => {
@@ -94,10 +138,10 @@ const FloatingActionButton = ({ weatherCondition }) => {
   const menuItems = [
     {
       icon: soundEnabled ? Volume2 : VolumeX,
-      label: soundEnabled ? 'Sound On' : 'Sound Off',
-      action: () => setSoundEnabled(!soundEnabled),
-      color: soundEnabled ? 'text-neon-green' : 'text-gray-400',
-      description: 'Weather ambient sounds'
+      label: soundEnabled ? (isPlaying ? 'Sound Playing' : 'Sound On') : 'Sound Off',
+      action: handleSoundToggle,
+      color: soundEnabled ? (isPlaying ? 'text-neon-green' : 'text-yellow-400') : 'text-gray-400',
+      description: audioError || (soundEnabled ? 'Weather ambient sounds' : 'Enable weather sounds')
     },
     {
       icon: Palette,
