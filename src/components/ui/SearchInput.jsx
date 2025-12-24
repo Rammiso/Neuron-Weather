@@ -10,7 +10,7 @@ const SearchInput = ({ search, setSearch, placeholder = "Search for a city..." }
       transition={{ duration: 0.6, delay: 0.2 }}
     >
       <div className="relative group">
-        {/* Animated border glow */}
+      
         <motion.div
           className="absolute inset-0 rounded-2xl bg-gradient-to-r from-neon-green/20 to-neon-cyan/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"
           animate={{
