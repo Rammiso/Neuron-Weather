@@ -62,7 +62,7 @@ const WeatherCard = ({ data, index, isToday = false }) => {
         </div>
       </div>
 
-      {/* Temperature Display */}
+      {/* Temperature Display card*/}
       <div className="flex items-center justify-between mb-6">
         <div className="space-y-2">
           <div className="text-4xl font-bold neon-text text-shadow-glow">
