@@ -10,7 +10,7 @@ const EmptyState = () => {
       transition={{ duration: 0.6 }}
     >
       <div className="relative mb-8">
-        {/* Animated background glow */}
+        {/* Animated background glow  for */}
         <motion.div
           className="absolute inset-0 bg-neon-green/20 rounded-full blur-xl"
           animate={{
