@@ -35,7 +35,7 @@ const MinutelyForecast = ({ currentWeather, forecast }) => {
     
     const data = [];
     
-    // Generate data for next 120 minutes (2 hours) in 10-minute intervals
+    // Generate data for next 120 minutes (2 hours) in 10-minute intervals of time
     for (let i = 0; i < 12; i++) {
       const minutesFromNow = i * 10;
       const targetTime = new Date(now.getTime() + minutesFromNow * 60000);
