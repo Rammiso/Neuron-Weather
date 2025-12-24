@@ -95,7 +95,7 @@ const WeatherInsights = ({ currentWeather, forecast }) => {
       });
     }
     
-    // Tomorrow's weather comparison
+    // Tomorrow's weather comparison feature
     if (tomorrow) {
       const tempDiff = tomorrow.day.avgtemp_c - today.day.avgtemp_c;
       if (Math.abs(tempDiff) > 10) {
