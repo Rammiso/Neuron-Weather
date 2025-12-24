@@ -216,9 +216,7 @@ npm run build
 
 ---
 
-## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
 ### **Development Workflow**
 1. Fork the repository
